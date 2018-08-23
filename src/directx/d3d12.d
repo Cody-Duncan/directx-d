@@ -7,6 +7,7 @@ module directx.d3d12;
 
 public import directx.dxgi;
 public import directx.d3dcommon;
+public import directx.d3d12sdklayers : ID3D12Debug;
 
 enum {
     D3D12_16BIT_INDEX_STRIP_CUT_VALUE = 0xffff,
@@ -2825,7 +2826,7 @@ extern(Windows) nothrow HRESULT D3D12CreateDevice(
 
 extern(Windows) nothrow HRESULT D3D12GetDebugInterface(
                          REFIID riid,
-                         void** ppvDebug);
+                         ID3D12Debug* ppvDebug);
 
 
 alias PFN_D3D12_CREATE_DEVICE = extern(Windows) nothrow HRESULT function(
@@ -2836,5 +2837,5 @@ alias PFN_D3D12_CREATE_DEVICE = extern(Windows) nothrow HRESULT function(
 
 alias PFN_D3D12_GET_DEBUG_INTERFACE = extern(Windows) nothrow HRESULT function(
                          REFIID riid,
-                         void** ppvDebug);
+                         ID3D12Debug* ppvDebug);
 

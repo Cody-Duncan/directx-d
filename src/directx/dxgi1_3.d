@@ -1,15 +1,28 @@
 module directx.dxgi1_3;
 
 public import directx.dxgi1_2;
+public import directx.dxgi1_4 : IDXGIFactory4;
+public import directx.dxgidebug : IDXGIDebug, IDXGIDebug1, IDXGIInfoQueue;
+import std.traits;
+import std.meta;
+import std.range.primitives;
 
 enum DXGI_CREATE_FACTORY_DEBUG = 0x1;
 
-__gshared _DXGIGetDebugInterface1 DXGIGetDebugInterface1;
-__gshared _CreateDXGIFactory2 CreateDXGIFactory2;
-
 extern (Windows) {
-    alias _CreateDXGIFactory2     = HRESULT function(UINT Flags, REFIID riid, void** ppFactory);
-    alias _DXGIGetDebugInterface1 = HRESULT function(UINT Flags, REFIID riid, void **pDebug);
+    nothrow HRESULT CreateDXGIFactory2(UINT Flags, REFIID riid, IDXGIFactory2 *ppFactory);
+
+    // Helper - converts subclasses to IDXGIFactory2, and calls CreateDXGIFactory2
+    nothrow HRESULT CreateDXGIFactory2(U)(UINT Flags, REFIID riid, U *ppFactory)
+    {
+        static assert ( (staticIndexOf!(IDXGIFactory2, InterfacesTuple!U) != -1),
+            "Error calling CreateDXGIFactory2, ppFactory ("~U.stringof~") does not implement interface IDXGIFactory2." );
+        return CreateDXGIFactory2(Flags, riid, cast(IDXGIFactory2*)ppFactory); 
+    }
+
+    nothrow HRESULT DXGIGetDebugInterface1(UINT Flags, REFIID riid, IDXGIDebug *pDebug);
+    nothrow HRESULT DXGIGetDebugInterface1(UINT Flags, REFIID riid, IDXGIDebug1 *pDebug);
+    nothrow HRESULT DXGIGetDebugInterface1(UINT Flags, REFIID riid, IDXGIInfoQueue *pDebug);
 }
 
 mixin( uuid!(IDXGIDevice3, "6007896c-3244-4afd-bf18-a6d3beda5023") );
