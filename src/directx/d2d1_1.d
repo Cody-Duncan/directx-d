@@ -985,7 +985,6 @@ interface ID2D1Properties : IUnknown
     //
     // Templatized helper functions:
     //
-    final
     HRESULT GetValueByName(T)(
         PCWSTR propertyName,
         T *value
@@ -994,7 +993,7 @@ interface ID2D1Properties : IUnknown
         return GetValueByName(propertyName, cast(BYTE*)value, T.sizeof);
     }
     
-    final T GetValueByName(T)(PCWSTR propertyName) const
+    T GetValueByName(T)(PCWSTR propertyName) const
     {
         T value;
         HRESULT ignoreHr = GetValueByName(propertyName, cast(BYTE*)&value, T.sizeof);
@@ -1004,7 +1003,7 @@ interface ID2D1Properties : IUnknown
     }
     
     
-    final HRESULT SetValueByName(T)(
+    HRESULT SetValueByName(T)(
         PCWSTR propertyName,
         const T value
         )
@@ -1012,7 +1011,7 @@ interface ID2D1Properties : IUnknown
         return SetValueByName(propertyName, cast(const(BYTE)*)&value, T.sizeof);
     }
     
-    final HRESULT GetValue(U)(
+    HRESULT GetValue(U)(
         U index,
         BYTE* data,
         UINT32 dataSize
@@ -1021,12 +1020,12 @@ interface ID2D1Properties : IUnknown
         return GetValue(cast(UINT32)index, data, dataSize);
     }
     
-    final HRESULT GetValue(T, U)(U index, T* value) const
+    HRESULT GetValue(T, U)(U index, T* value) const
     {
         return GetValue(cast(UINT32)index, cast(BYTE*)value, T.sizeof);
     }
     
-    final T GetValue(T, U)(U index) const
+    T GetValue(T, U)(U index) const
     {
         T value;
         HRESULT ignoreHr = GetValue(cast(UINT32)index, cast(BYTE*)&value, T.sizeof);
@@ -1037,38 +1036,38 @@ interface ID2D1Properties : IUnknown
         return value;
     }
     
-    final HRESULT SetValue(U)(U index, const(BYTE)* data, UINT32 dataSize)
+    HRESULT SetValue(U)(U index, const(BYTE)* data, UINT32 dataSize)
     {
         return SetValue(cast(UINT32)index, data, dataSize);
     }
     
-    final HRESULT SetValue(T, U)(U index, const T value)
+    HRESULT SetValue(T, U)(U index, const T value)
     {
         return SetValue(cast(UINT32)index, cast(const(BYTE)*)&value, T.sizeof);
     }
     
-    final HRESULT GetPropertyName(U)(U index, PWSTR name, UINT32 nameCount) const
+    HRESULT GetPropertyName(U)(U index, PWSTR name, UINT32 nameCount) const
     {
         return GetPropertyName(cast(UINT32)index, name, nameCount);
     }
     
-    final UINT32 GetPropertyNameLength(U)(U index) const
+    UINT32 GetPropertyNameLength(U)(U index) const
     {
         return GetPropertyNameLength(cast(UINT32)index);
     }
     
-    final D2D1_PROPERTY_TYPE GetType(U)(U index) const
+    D2D1_PROPERTY_TYPE GetType(U)(U index) const
     {
         return GetType(cast(UINT32)index);
     }
     
     
-    final UINT32 GetValueSize(U)(U index) const
+    UINT32 GetValueSize(U)(U index) const
     {
         return GetValueSize(cast(UINT32)index);
     }
     
-    final HRESULT GetSubProperties(U)(U index, out ID2D1Properties subProperties) const
+    HRESULT GetSubProperties(U)(U index, out ID2D1Properties subProperties) const
     {
         return GetSubProperties(cast(UINT32)index, &subProperties);
     }
